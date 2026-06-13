@@ -187,8 +187,8 @@ wss.on('connection', (ws) => {
 
     // Send a message
     if (msg.type === 'send_message') {
-      const { conversation_id, id, type, text, voice_uri, voice_duration, voice_waveform, voice_segments, timestamp } = msg as {
-        conversation_id: string; id: string; type: string; text: string
+      const { conversation_id, id, msg_type, text, voice_uri, voice_duration, voice_waveform, voice_segments, timestamp } = msg as {
+        conversation_id: string; id: string; msg_type?: string; text: string
         voice_uri?: string; voice_duration?: number; voice_waveform?: number[]; voice_segments?: unknown[]; timestamp: number
       }
 
@@ -197,7 +197,7 @@ wss.on('connection', (ws) => {
         INSERT INTO messages (id, conversation_id, sender_id, type, text, voice_uri, voice_duration, voice_waveform, voice_segments, timestamp, status)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'sent')
       `).run(
-        msgId, conversation_id, userId, type ?? 'text', text ?? '',
+        msgId, conversation_id, userId, msg_type ?? 'text', text ?? '',
         voice_uri ?? null, voice_duration ?? null,
         voice_waveform ? JSON.stringify(voice_waveform) : null,
         voice_segments ? JSON.stringify(voice_segments) : null,
