@@ -187,7 +187,7 @@ wss.on('connection', (ws) => {
 
     // Send a message
     if (msg.type === 'send_message') {
-      const { conversation_id, id, msg_type, text, voice_uri, voice_duration, voice_waveform, voice_segments, timestamp } = msg as {
+      const { conversation_id, id, msg_type, text, voice_uri, voice_duration, voice_waveform, voice_segments, timestamp } = msg as unknown as {
         conversation_id: string; id: string; msg_type?: string; text: string
         voice_uri?: string; voice_duration?: number; voice_waveform?: number[]; voice_segments?: unknown[]; timestamp: number
       }
